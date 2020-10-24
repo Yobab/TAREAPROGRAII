@@ -26,6 +26,14 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        switch(request.getParameter("caso")){
+            case "OpcionesMarca": response.getWriter().write(BD.OpcionesMarcas().toString());break;
+            case "OpcionesCategoria": response.getWriter().write(BD.OpcionesCategorias().toString());break;
+            case "Marcas": response.getWriter().write(BD.obtenerMarcas().toString());break;
+            case "Categorias": response.getWriter().write(BD.obtenerCategorias().toString());break;
+            case "Productos": response.getWriter().write(BD.obtenerProductos().toString());break;
+        }
+        
     }
 
     /**
@@ -39,14 +47,16 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      
+            switch(request.getParameter("caso")){
+                case "Marca": BD.registrarMarca(request.getParameter("nombre"),request.getParameter("descripcion"));  break;
+                case "Categoria": BD.registrarCategoria(request.getParameter("nombre"),request.getParameter("descripcion"));  break;
+                case "Producto": BD.registrarProducto(request.getParameter("codigo"),
+                        request.getParameter("nombre"), request.getParameter("descripcion"), Double.parseDouble(request.getParameter("precio")),
+                        Integer.parseInt(request.getParameter("marca")), Integer.parseInt(request.getParameter("categoria")));break;
+            }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    
+    
     @Override
     public String getServletInfo() {
         return "Short description";
